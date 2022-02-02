@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-
 const mysql = require("mysql");
+const cors = require("cors");
+
+app.use(cors());
 
 const db = mysql.createConnection({
 	user: "user",
@@ -15,6 +17,19 @@ app.post("/create", (req, res) => {
 	const country = req.body.country;
 	const position = req.body.position;
 	const wage = req.body.wage;
+
+	db.query(
+		" INSERT INTO employe (name, age, country, position, wage) VALUES( ?,?,?,?,?)"[
+			(name, age, country, position, wage)
+		],
+		(err, res) => {
+			if (err) {
+				console.log(err);
+			} else {
+				res.send("Values SEND");
+			}
+		}
+	);
 });
 
 app.listen(3001, () => {
